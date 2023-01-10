@@ -40,7 +40,12 @@ defmodule Papelillo.Providers.Test do
   end
 
   def do_delete(%{address: address, path: path}, config) do
-    http_client = Application.get_env(:gqlp, :http_client, HTTPoison)
+    http_client =
+      Keyword.fetch(config, :test_http_client)
+      |> case do
+        {:ok, test_http_client} -> test_http_client
+        :error -> Papelillo.Mocks.HttpMock
+      end
 
     auth = [hackney: [basic_auth: {"api", "#{Keyword.fetch!(config, :api_key)}"}]]
 
@@ -68,7 +73,12 @@ defmodule Papelillo.Providers.Test do
   end
 
   def do_put(%{address: address, body: body, path: path}, config) do
-    http_client = Application.get_env(:gqlp, :http_client, HTTPoison)
+    http_client =
+      Keyword.fetch(config, :test_http_client)
+      |> case do
+        {:ok, test_http_client} -> test_http_client
+        :error -> Papelillo.Mocks.HttpMock
+      end
 
     base_url = Keyword.fetch!(config, :base_url)
     url = base_url <> path <> "/#{address}"
