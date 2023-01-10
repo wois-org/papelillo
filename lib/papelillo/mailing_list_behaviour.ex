@@ -15,7 +15,8 @@ defmodule Papelillo.MailingListBehaviour do
 
   @callback delete(address, config) :: {:ok, any()} | {:error, any()}
 
-  @callback update(name, description, address, actual_address, config) :: {:ok, any()} | {:error, any()}
+  @callback update(name, description, address, actual_address, config) ::
+              {:ok, any()} | {:error, any()}
 
   @callback subscribe(list_name, member, config) :: {:ok, any()} | {:error, any()}
 

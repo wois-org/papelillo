@@ -54,7 +54,6 @@ defmodule Papelillo.MailerList do
       end
 
       defp parse_config(config) do
-        IO.inspect(@mailer_list_config)
         MailerList.parse_config(@otp_app, __MODULE__, @mailer_list_config, config)
       end
     end

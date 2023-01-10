@@ -1,4 +1,4 @@
-defmodule Papelillo.Mailgun do
+defmodule Papelillo.Providers.Test do
   @behaviour Papelillo.MailingListBehaviour
 
   def create(name, description, address, config) do
@@ -14,7 +14,12 @@ defmodule Papelillo.Mailgun do
   end
 
   def do_post(%{body: body, path: path}, config) do
-    http_client = Application.get_env(:gqlp, :http_client, HTTPoison)
+    http_client =
+      Keyword.fetch(config, :test_http_client)
+      |> case do
+        {:ok, test_http_client} -> test_http_client
+        :error -> Papelillo.Mocks.HttpMock
+      end
 
     auth = [hackney: [basic_auth: {"api", "#{Keyword.fetch!(config, :api_key)}"}]]
 
@@ -106,7 +111,7 @@ defmodule Papelillo.Mailgun do
   end
 
   def parse({:ok, %HTTPoison.Response{status_code: 404, body: body}}) do
-    {:error, %{error: :error, message: body}}
+    {:error, %{error: :error, status_code: 404, message: body}}
   end
 
   def parse({:error, %HTTPoison.Error{reason: reason}}) do
