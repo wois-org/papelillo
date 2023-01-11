@@ -14,6 +14,13 @@ defmodule Papelillo.Providers.Mailgun do
   end
 
   def do_post(%{body: body, path: path}, config) do
+    http_client =
+      Keyword.fetch(config, :http_client)
+      |> case do
+        {:ok, http_client} -> http_client
+        :error -> HTTPoison
+      end
+
     auth = [hackney: [basic_auth: {"api", "#{Keyword.fetch!(config, :api_key)}"}]]
 
     base_url = Keyword.fetch!(config, :base_url)
@@ -24,7 +31,7 @@ defmodule Papelillo.Providers.Mailgun do
       {"Content-Type", "application/x-www-form-urlencoded; charset=utf-8"}
     ]
 
-    HTTPoison.post(url, body, headers, auth)
+    http_client.post(url, body, headers, auth)
   end
 
   def delete(address, config) do
@@ -33,6 +40,13 @@ defmodule Papelillo.Providers.Mailgun do
   end
 
   def do_delete(%{address: address, path: path}, config) do
+    http_client =
+      Keyword.fetch(config, :http_client)
+      |> case do
+        {:ok, http_client} -> http_client
+        :error -> HTTPoison
+      end
+
     auth = [hackney: [basic_auth: {"api", "#{Keyword.fetch!(config, :api_key)}"}]]
 
     base_url = Keyword.fetch!(config, :base_url)
@@ -43,7 +57,7 @@ defmodule Papelillo.Providers.Mailgun do
       {"Content-Type", "application/x-www-form-urlencoded; charset=utf-8"}
     ]
 
-    HTTPoison.delete(url, headers, auth)
+    http_client.delete(url, headers, auth)
   end
 
   def update(name, description, address, actual_address, config) do
@@ -59,6 +73,13 @@ defmodule Papelillo.Providers.Mailgun do
   end
 
   def do_put(%{address: address, body: body, path: path}, config) do
+    http_client =
+      Keyword.fetch(config, :http_client)
+      |> case do
+        {:ok, http_client} -> http_client
+        :error -> HTTPoison
+      end
+
     base_url = Keyword.fetch!(config, :base_url)
     url = base_url <> path <> "/#{address}"
 
@@ -69,7 +90,7 @@ defmodule Papelillo.Providers.Mailgun do
 
     auth = [hackney: [basic_auth: {"api", "#{Keyword.fetch!(config, :api_key)}"}]]
 
-    HTTPoison.put(url, body, headers, auth)
+    http_client.put(url, body, headers, auth)
   end
 
   def subscribe(list_name, member, config) do

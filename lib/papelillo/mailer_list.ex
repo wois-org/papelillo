@@ -105,12 +105,20 @@ defmodule Papelillo.MailerList do
   Parse configs in the following order, later ones taking priority:
 
   1. mix configs
-  2. compiled configs in Mailer module
+  2. compiled configs in MailerList module
   3. dynamic configs passed into the function
   4. system envs
   """
   def parse_config(otp_app, mailerlist, mailerlist_config, dynamic_config) do
-    Application.get_env(otp_app, mailerlist, [])
+    otp_app_env =
+      if Application.get_env(otp_app, :env) == "test" do
+        [http_client: Papelillo.Mocks.HttpMock]
+        |> Keyword.merge(Application.get_env(otp_app, mailerlist, []))
+      else
+        Application.get_env(otp_app, mailerlist, [])
+      end
+
+    otp_app_env
     |> Keyword.merge(mailerlist_config)
     |> Keyword.merge(dynamic_config)
     |> Papelillo.MailerList.interpolate_env_vars()
