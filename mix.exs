@@ -9,6 +9,12 @@ defmodule Papelillo.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       name: "Papelillo",
+      description: description(),
+      package: package(),
+      docs: [
+        main: "readme",
+        extras: ["README.md", "CHANGELOG.md", "LICENSE", "docs/*"]
+      ],
       source_url: "https://github.com/wois-org/papelillo"
     ]
   end
@@ -17,6 +23,19 @@ defmodule Papelillo.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp description() do
+    "Mailing Lists managment"
+  end
+
+  defp package() do
+    [
+      name: "papelillo",
+      files: ~w(lib .formatter.exs mix.exs README* LICENSE CHANGELOG*),
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/wois-org/papelillo"}
     ]
   end
 
