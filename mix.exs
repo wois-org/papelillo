@@ -11,6 +11,7 @@ defmodule Papelillo.MixProject do
       name: "Papelillo",
       description: description(),
       package: package(),
+      test_coverage: [tool: ExCoveralls],
       docs: [
         main: "readme",
         extras: ["README.md", "CHANGELOG.md", "LICENSE", "docs/*"]
@@ -47,6 +48,8 @@ defmodule Papelillo.MixProject do
       {:httpoison, "~> 1.8"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:excoveralls, "0.14.4", only: :test},
+      {:version_release, "0.2.0", only: [:test, :dev], runtime: false},
       {:mox, "~> 1.0", only: :test}
     ]
   end

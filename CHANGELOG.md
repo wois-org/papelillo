@@ -8,4 +8,4 @@
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/wois-org/papelillo/compare/v0.1.o...HEAD
+[Unreleased]: https://github.com/wois-org/papelillo/compare/v0.1.0...HEAD

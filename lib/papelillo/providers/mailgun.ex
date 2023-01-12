@@ -1,6 +1,14 @@
 defmodule Papelillo.Providers.Mailgun do
   @behaviour Papelillo.MailingListBehaviour
 
+  def create(nil, _description, _address, _config) do
+    {:error, "[#{inspect(__MODULE__)}.create/4] Name is required"}
+  end
+
+  def create(_name, _description, nil, _config) do
+    {:error, "[#{inspect(__MODULE__)}.create/4] Address is required"}
+  end
+
   def create(name, description, address, config) do
     body =
       URI.encode_query(%{
