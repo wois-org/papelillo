@@ -9,12 +9,15 @@ With Papelillo you can separate in other layer the management of the mailing, so
 
 ## Supported Providers
 
-* Mailgun: Papelillo.Providers.Mailgun
+[x] Mailgun: Papelillo.Providers.Mailgun
+
+[ ] Gmail
+
+[ ] Mailchimp
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `papelillo` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `papelillo` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -58,24 +61,18 @@ defmodule YourApp.MailingList do
   use Papelillo.MailerList, otp_app: :your_app
   
   def some_action_create(some_params) do
-    ###Some code and business logic
+    ### Some code and business logic
     create(name, description, address)
-    |> handle_response()
+    |> handle_response() 
   end
 ```
 
-The "YourApp.MailingList" must be equals to the config files Papelillo sections.
 
 ## Testing
 
-By default Papelillo have a happy path test, if you want to test provider failures scenarios need to add in your test.exs file in the papelillo's section the key "http_client" where the value must be the http mock that you have like HTTPoisonMock and then you can add expects in your test to simulate bad responses or something like that.
+By default Papelillo have a happy path test, if you want to customise your tests scenarios you can override `http_client` with your own in your Mock module in your test configuration file.
 
-If you don't set the http_client key in the config, the library uses a http_mock that simulates right responses from the provider.
-
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/papelillo>.
+If you don't set the http_client key in the config, the library uses a http_mock that simulates always right responses from the provider.
 
 
 ## License
