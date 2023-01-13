@@ -4,7 +4,7 @@ Papelillo is a library to wrap and manage mailing lists, so you can create/updat
 
 You only need to set your provider's credentials in the config file and start to manage your mailing list without configure http calls, ensure urls or dealing with tricky configurations. Use your time in the business logic of your app.
 
-With Papelillo you can separate in other layer the management of the mailing, so if you decide change the provider or use the implementation for multiples app you don't need to change your core code.
+With Papelillo you can separate in other layer the management of the mailing, so if you decide change the provider or use the implementation for multiple apps you don't need to change your core code.
 
 
 ## Supported Providers
@@ -54,7 +54,7 @@ config :your_app, YourApp.MailingList,
 
 ## Usage
 
-We recomend create a module to implements your business logic and consume the funcionality of the library.
+We recommend to create a module that implements your business logic and consume the functionality of the library.
 
 ```elixir
 defmodule YourApp.MailingList do
