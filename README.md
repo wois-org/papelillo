@@ -28,12 +28,22 @@ end
 
 ## Configurations
 
+* config.exs
+
 ```elixir
 config :your_app, YourApp.MailingList,
   provider: Papelillo.Providers.Mailgun,
   api_key: System.get_env("MAILGUN_API_KEY"),
   domain: System.get_env("MAILGUN_LIST_DOMAIN", "domain.xyz"),
-  base_url: System.get_env("MAILGUN_BASE_URL", "https://api.eu.mailgun.net/v3"),
+  base_url: System.get_env("MAILGUN_BASE_URL", "https://api.eu.mailgun.net/v3")
+
+```
+
+
+* test.exs
+
+```elixir
+config :your_app, YourApp.MailingList,
   http_client: HTTPoisonMock #If you want to simulate custom http responses
 
 ```
@@ -50,6 +60,7 @@ defmodule YourApp.MailingList do
   def some_action_create(some_params) do
     ###Some code and business logic
     create(name, description, address)
+    |> handle_response()
   end
 ```
 
