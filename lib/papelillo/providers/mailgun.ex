@@ -42,6 +42,10 @@ defmodule Papelillo.Providers.Mailgun do
     http_client.post(url, body, headers, auth)
   end
 
+  def delete(nil, _config) do
+    {:error, "[#{inspect(__MODULE__)}.delete/2] Address is required"}
+  end
+
   def delete(address, config) do
     do_delete(%{address: address, path: "/lists"}, config)
     |> parse()
@@ -66,6 +70,18 @@ defmodule Papelillo.Providers.Mailgun do
     ]
 
     http_client.delete(url, headers, auth)
+  end
+
+  def update(nil, _description, _address, _actual_address, _config) do
+    {:error, "[#{inspect(__MODULE__)}.update/5] Name is required"}
+  end
+
+  def update(_name, _description, nil, _actual_address, _config) do
+    {:error, "[#{inspect(__MODULE__)}.update/5] Address is required"}
+  end
+
+  def update(_name, _description, _address, nil, _config) do
+    {:error, "[#{inspect(__MODULE__)}.update/5] Actual Address is required"}
   end
 
   def update(name, description, address, actual_address, config) do
@@ -101,6 +117,14 @@ defmodule Papelillo.Providers.Mailgun do
     http_client.put(url, body, headers, auth)
   end
 
+  def subscribe(nil, _member, _config) do
+    {:error, "[#{inspect(__MODULE__)}.subscribe/3] list_name is required"}
+  end
+
+  def subscribe(_list_name, nil, _config) do
+    {:error, "[#{inspect(__MODULE__)}.subscribe/3] Member is required"}
+  end
+
   def subscribe(list_name, member, config) do
     path = "/lists/#{list_name}/members"
 
@@ -112,6 +136,14 @@ defmodule Papelillo.Providers.Mailgun do
 
     do_post(%{body: body, path: path}, config)
     |> parse()
+  end
+
+  def unsubscribe(nil, _member, _config) do
+    {:error, "[#{inspect(__MODULE__)}.unsubscribe/3] list_name is required"}
+  end
+
+  def unsubscribe(_list_name, nil, _config) do
+    {:error, "[#{inspect(__MODULE__)}.unsubscribe/3] Member is required"}
   end
 
   def unsubscribe(list_name, member, config) do
