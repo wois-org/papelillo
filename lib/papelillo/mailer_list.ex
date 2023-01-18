@@ -99,7 +99,13 @@ defmodule Papelillo.MailerList do
         :error -> actual_address
       end
 
-    provider.update(name, description, address, actual_address, config)
+    provider.update(
+      name,
+      description,
+      address |> validate_email(),
+      actual_address |> validate_email(),
+      config
+    )
   end
 
   @doc """
@@ -117,7 +123,7 @@ defmodule Papelillo.MailerList do
         :error -> address
       end
 
-    provider.delete(address, config)
+    provider.delete(address |> validate_email(), config)
   end
 
   @doc """
@@ -137,7 +143,14 @@ defmodule Papelillo.MailerList do
         :error -> list_name
       end
 
-    provider.subscribe(list_address, member, config)
+    member =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> member <> "@" <> domain
+        :error -> member
+      end
+
+    provider.subscribe(list_address |> validate_email(), member |> validate_email(), config)
   end
 
   @doc """
@@ -157,7 +170,14 @@ defmodule Papelillo.MailerList do
         :error -> list_name
       end
 
-    provider.unsubscribe(list_address, member, config)
+    member =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> member <> "@" <> domain
+        :error -> member
+      end
+
+    provider.unsubscribe(list_address |> validate_email(), member |> validate_email(), config)
   end
 
   @doc """
@@ -170,7 +190,7 @@ defmodule Papelillo.MailerList do
   """
   def parse_config(otp_app, mailerlist, mailerlist_config, dynamic_config) do
     otp_app_env =
-      if Application.get_env(otp_app, :env) == "test" do
+      if Application.get_env(otp_app, :mix_env) == :test do
         [http_client: Papelillo.Mocks.HttpMock]
         |> Keyword.merge(Application.get_env(otp_app, mailerlist, []))
       else
@@ -236,7 +256,7 @@ defmodule Papelillo.MailerList do
   end
 
   def validate_email(email) do
-    EmailChecker.Check.valid(email)
+    EmailChecker.Check.Format.valid?(email)
     |> case do
       true -> email
       _ -> raise "#{email} has not valid email format"

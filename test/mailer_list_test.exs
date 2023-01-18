@@ -44,6 +44,16 @@ defmodule MailerListTest do
       assert {:ok, "List created"} =
                MailerList.create("name", "description", "address", @config_mock)
     end
+
+    test "with correct params, testing mock, no domain" do
+      assert {:ok, "List created"} =
+               MailerList.create(
+                 "name",
+                 "description",
+                 "address@domain.xyz",
+                 @config_mock_no_domain
+               )
+    end
   end
 
   describe "Delete mailing list" do
@@ -85,8 +95,8 @@ defmodule MailerListTest do
                MailerList.update(
                  "name",
                  "description",
-                 "address",
-                 "actual_address",
+                 "address@domain.xyz",
+                 "actual_address@domain.xyz",
                  @config_mock_no_domain
                )
     end
@@ -108,7 +118,11 @@ defmodule MailerListTest do
 
     test "with correct params, testing mock, no domain" do
       assert {:ok, "Member subscribed"} =
-               MailerList.subscribe("list_name", "member", @config_mock_no_domain)
+               MailerList.subscribe(
+                 "list_name@domain.xyz",
+                 "member@domain.xyz",
+                 @config_mock_no_domain
+               )
     end
   end
 
@@ -128,7 +142,11 @@ defmodule MailerListTest do
 
     test "with correct params, testing mock, no domain" do
       assert {:ok, "Member unsubscribed"} =
-               MailerList.unsubscribe("list_name", "member", @config_mock_no_domain)
+               MailerList.unsubscribe(
+                 "list_name@domain.xyz",
+                 "member@domain.xyz",
+                 @config_mock_no_domain
+               )
     end
   end
 end
