@@ -14,7 +14,7 @@ defmodule Papelillo.MixProject do
       test_coverage: [tool: ExCoveralls],
       docs: [
         main: "readme",
-        extras: ["README.md", "CHANGELOG.md", "LICENSE", "docs/*"]
+        extras: ["README.md", "CHANGELOG.md", "LICENSE"]
       ],
       source_url: "https://github.com/wois-org/papelillo"
     ]
