@@ -34,6 +34,7 @@ defmodule Papelillo.MixProject do
   defp package() do
     [
       name: "papelillo",
+      organization: "wois",
       files: ~w(lib .formatter.exs mix.exs README* LICENSE CHANGELOG*),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/wois-org/papelillo"}
