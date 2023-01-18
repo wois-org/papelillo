@@ -108,12 +108,13 @@ defmodule MailerListTest do
         Papelillo.Stub.Providers.HttpClient.okSubscribed()
       end)
 
-      assert {:ok, "Member subscribed"} = MailerList.subscribe("list_name", "member", @config)
+      assert {:ok, "Member subscribed"} =
+               MailerList.subscribe("list_name", "member@domain.xyz", @config)
     end
 
     test "with correct params, testing mock" do
       assert {:ok, "Member subscribed"} =
-               MailerList.subscribe("list_name", "member", @config_mock)
+               MailerList.subscribe("list_name", "member@domain.xyz", @config_mock)
     end
 
     test "with correct params, testing mock, no domain" do
@@ -132,12 +133,13 @@ defmodule MailerListTest do
         Papelillo.Stub.Providers.HttpClient.okUnsubscribed()
       end)
 
-      assert {:ok, "Member unsubscribed"} = MailerList.unsubscribe("list_name", "member", @config)
+      assert {:ok, "Member unsubscribed"} =
+               MailerList.unsubscribe("list_name", "member@domain.xyz", @config)
     end
 
     test "with correct params, testing mock" do
       assert {:ok, "Member unsubscribed"} =
-               MailerList.unsubscribe("list_name", "member", @config_mock)
+               MailerList.unsubscribe("list_name", "member@domain.xyz", @config_mock)
     end
 
     test "with correct params, testing mock, no domain" do

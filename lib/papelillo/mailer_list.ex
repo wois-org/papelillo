@@ -143,13 +143,6 @@ defmodule Papelillo.MailerList do
         :error -> list_name
       end
 
-    member =
-      Keyword.fetch(config, :domain)
-      |> case do
-        {:ok, domain} -> member <> "@" <> domain
-        :error -> member
-      end
-
     provider.subscribe(list_address |> validate_email(), member |> validate_email(), config)
   end
 
@@ -168,13 +161,6 @@ defmodule Papelillo.MailerList do
       |> case do
         {:ok, domain} -> list_name <> "@" <> domain
         :error -> list_name
-      end
-
-    member =
-      Keyword.fetch(config, :domain)
-      |> case do
-        {:ok, domain} -> member <> "@" <> domain
-        :error -> member
       end
 
     provider.unsubscribe(list_address |> validate_email(), member |> validate_email(), config)
