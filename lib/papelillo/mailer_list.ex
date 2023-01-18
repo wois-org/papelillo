@@ -59,6 +59,11 @@ defmodule Papelillo.MailerList do
     end
   end
 
+  @doc """
+  Create a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   def create(name, description, address, config) do
     provider = Keyword.fetch!(config, :provider)
 
@@ -67,6 +72,11 @@ defmodule Papelillo.MailerList do
     provider.create(name, description, address, config)
   end
 
+  @doc """
+  Update a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   def update(name, description, address, actual_address, config) do
     provider = Keyword.fetch!(config, :provider)
 
@@ -77,6 +87,11 @@ defmodule Papelillo.MailerList do
     provider.update(name, description, address, actual_address, config)
   end
 
+  @doc """
+  Delete a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   def delete(address, config) do
     provider = Keyword.fetch!(config, :provider)
 
@@ -85,6 +100,13 @@ defmodule Papelillo.MailerList do
     provider.delete(address, config)
   end
 
+  @doc """
+  Subscribe a email account to mailing list with the parameters.
+
+  List_name must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+
+  Member must have complete email format
+  """
   def subscribe(list_name, member, config) do
     provider = Keyword.fetch!(config, :provider)
 
@@ -93,6 +115,13 @@ defmodule Papelillo.MailerList do
     provider.subscribe(list_address, member, config)
   end
 
+  @doc """
+  Unsubscribe a email account to mailing list with the parameters.
+
+  List_name must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+
+  Member must have complete email format
+  """
   def unsubscribe(list_name, member, config) do
     provider = Keyword.fetch!(config, :provider)
 
