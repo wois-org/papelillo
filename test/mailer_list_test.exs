@@ -24,6 +24,13 @@ defmodule MailerListTest do
     http_client: Papelillo.Mocks.HttpMock
   ]
 
+  @config_mock_no_domain [
+    provider: Papelillo.Providers.Mailgun,
+    api_key: nil,
+    base_url: "https://mailingprovider.xyz/v3",
+    http_client: Papelillo.Mocks.HttpMock
+  ]
+
   describe "Create mailing list" do
     test "with correct params" do
       expect(HTTPoisonMock, :post, 1, fn _url, _body, _headers, _opts ->
@@ -51,6 +58,11 @@ defmodule MailerListTest do
     test "with correct params, testing mock" do
       assert {:ok, "List deleted"} = MailerList.delete("address", @config_mock)
     end
+
+    test "with correct params, testing mock, no domain" do
+      assert {:ok, "List deleted"} =
+               MailerList.delete("address@domain.xyz", @config_mock_no_domain)
+    end
   end
 
   describe "Update mailing list" do
@@ -67,6 +79,17 @@ defmodule MailerListTest do
       assert {:ok, "List updated"} =
                MailerList.update("name", "description", "address", "actual_address", @config_mock)
     end
+
+    test "with correct params, testing mock, no domain" do
+      assert {:ok, "List updated"} =
+               MailerList.update(
+                 "name",
+                 "description",
+                 "address",
+                 "actual_address",
+                 @config_mock_no_domain
+               )
+    end
   end
 
   describe "Subscribe to mailing list" do
@@ -82,6 +105,11 @@ defmodule MailerListTest do
       assert {:ok, "Member subscribed"} =
                MailerList.subscribe("list_name", "member", @config_mock)
     end
+
+    test "with correct params, testing mock, no domain" do
+      assert {:ok, "Member subscribed"} =
+               MailerList.subscribe("list_name", "member", @config_mock_no_domain)
+    end
   end
 
   describe "Unsubscribe to mailing list" do
@@ -96,6 +124,11 @@ defmodule MailerListTest do
     test "with correct params, testing mock" do
       assert {:ok, "Member unsubscribed"} =
                MailerList.unsubscribe("list_name", "member", @config_mock)
+    end
+
+    test "with correct params, testing mock, no domain" do
+      assert {:ok, "Member unsubscribed"} =
+               MailerList.unsubscribe("list_name", "member", @config_mock_no_domain)
     end
   end
 end

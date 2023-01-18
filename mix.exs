@@ -49,7 +49,8 @@ defmodule Papelillo.MixProject do
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:excoveralls, "0.14.4", only: :test},
       {:version_release, "0.2.0", only: [:test, :dev], runtime: false},
-      {:mox, "~> 1.0", only: :test}
+      {:mox, "~> 1.0", only: :test},
+      {:email_checker, "~> 0.2.4"}
     ]
   end
 end

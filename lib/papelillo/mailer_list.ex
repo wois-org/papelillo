@@ -67,9 +67,14 @@ defmodule Papelillo.MailerList do
   def create(name, description, address, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    address = address <> "@" <> Keyword.fetch!(config, :domain)
+    address =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> address <> "@" <> domain
+        :error -> address
+      end
 
-    provider.create(name, description, address, config)
+    provider.create(name, description, address |> validate_email(), config)
   end
 
   @doc """
@@ -80,9 +85,19 @@ defmodule Papelillo.MailerList do
   def update(name, description, address, actual_address, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    address = address <> "@" <> Keyword.fetch!(config, :domain)
+    address =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> address <> "@" <> domain
+        :error -> address
+      end
 
-    actual_address = actual_address <> "@" <> Keyword.fetch!(config, :domain)
+    actual_address =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> actual_address <> "@" <> domain
+        :error -> actual_address
+      end
 
     provider.update(name, description, address, actual_address, config)
   end
@@ -95,7 +110,12 @@ defmodule Papelillo.MailerList do
   def delete(address, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    address = address <> "@" <> Keyword.fetch!(config, :domain)
+    address =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> address <> "@" <> domain
+        :error -> address
+      end
 
     provider.delete(address, config)
   end
@@ -110,7 +130,12 @@ defmodule Papelillo.MailerList do
   def subscribe(list_name, member, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    list_address = list_name <> "@" <> Keyword.fetch!(config, :domain)
+    list_address =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> list_name <> "@" <> domain
+        :error -> list_name
+      end
 
     provider.subscribe(list_address, member, config)
   end
@@ -125,7 +150,12 @@ defmodule Papelillo.MailerList do
   def unsubscribe(list_name, member, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    list_address = list_name <> "@" <> Keyword.fetch!(config, :domain)
+    list_address =
+      Keyword.fetch(config, :domain)
+      |> case do
+        {:ok, domain} -> list_name <> "@" <> domain
+        :error -> list_name
+      end
 
     provider.unsubscribe(list_address, member, config)
   end
@@ -203,5 +233,13 @@ defmodule Papelillo.MailerList do
     The following dependencies are required to use #{inspect(adapter)}:
     #{deps}
     """
+  end
+
+  def validate_email(email) do
+    EmailChecker.Check.valid(email)
+    |> case do
+      true -> email
+      _ -> raise "#{email} has not valid email format"
+    end
   end
 end
