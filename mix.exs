@@ -4,7 +4,7 @@ defmodule Papelillo.MixProject do
   def project do
     [
       app: :papelillo,
-      version: "0.2.1-rc.0",
+      version: "0.2.1-rc.1",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
