@@ -6,7 +6,7 @@
 ### Refactored
 * Added validations to email format for subscribers and lists address
 * Refactored get_env call to obtain "mix_env" instead "env"
-* Added posibility of add differents email domains if not sets :domain in config files
+* Allow posibility to use differents email domains
 
 ### Dependencies
 * email_checker 0.2.4
