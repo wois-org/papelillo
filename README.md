@@ -6,7 +6,7 @@ You only need to set your provider's credentials in the config file and start to
 
 With Papelillo you can separate in other layer the management of the mailing, so if you decide change the provider or use the implementation for multiple apps you don't need to change your core code.
 
-
+-----
 ## Supported Providers
 
 [x] Mailgun: Papelillo.Providers.Mailgun
@@ -15,6 +15,7 @@ With Papelillo you can separate in other layer the management of the mailing, so
 
 [ ] Mailchimp
 
+-----
 ## Installation
 
 The package can be installed by adding `papelillo` to your list of dependencies in `mix.exs`:
@@ -29,6 +30,7 @@ def deps do
 end
 ```
 
+-----
 ## Configurations
 
 * config.exs
@@ -42,7 +44,6 @@ config :your_app, YourApp.MailingList,
 
 ```
 
-
 * test.exs
 
 ```elixir
@@ -51,7 +52,7 @@ config :your_app, YourApp.MailingList,
 
 ```
 
-
+-----
 ## Usage
 
 We recommend to create a module that implements your business logic and consume the functionality of the library.
@@ -67,6 +68,9 @@ defmodule YourApp.MailingList do
   end
 ```
 
+* By default Papelillo will try to add the domain configured in configuration's files to the address, but if the value of address is a email valid format then will use that.
+
+-----
 
 ## Testing
 
@@ -74,9 +78,12 @@ By default Papelillo have a happy path test, if you want to customise your tests
 
 If you don't set the http_client key in the config, the library uses a http_mock that simulates always right responses from the provider.
 
+-----
 
 ## License
 Licensed under [MIT license](LICENSE)
+
+-----
 
 ## PS
 If you found this library useful, dont forget to star it (on github) =)

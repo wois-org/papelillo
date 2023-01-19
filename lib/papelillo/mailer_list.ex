@@ -59,46 +59,77 @@ defmodule Papelillo.MailerList do
     end
   end
 
+  @doc """
+  Create a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   def create(name, description, address, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    address = address <> "@" <> Keyword.fetch!(config, :domain)
-
-    provider.create(name, description, address, config)
+    provider.create(name, description, address |> validate_email(config), config)
   end
 
+  @doc """
+  Update a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   def update(name, description, address, actual_address, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    address = address <> "@" <> Keyword.fetch!(config, :domain)
-
-    actual_address = actual_address <> "@" <> Keyword.fetch!(config, :domain)
-
-    provider.update(name, description, address, actual_address, config)
+    provider.update(
+      name,
+      description,
+      address |> validate_email(config),
+      actual_address |> validate_email(config),
+      config
+    )
   end
 
+  @doc """
+  Delete a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   def delete(address, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    address = address <> "@" <> Keyword.fetch!(config, :domain)
-
-    provider.delete(address, config)
+    provider.delete(address |> validate_email(config), config)
   end
 
+  @doc """
+  Subscribe a email account to mailing list with the parameters.
+
+  List_name must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+
+  Member must have complete email format
+  """
   def subscribe(list_name, member, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    list_address = list_name <> "@" <> Keyword.fetch!(config, :domain)
-
-    provider.subscribe(list_address, member, config)
+    provider.subscribe(
+      list_name |> validate_email(config),
+      member |> validate_email(),
+      config
+    )
   end
 
+  @doc """
+  Unsubscribe a email account to mailing list with the parameters.
+
+  List_name must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+
+  Member must have complete email format
+  """
   def unsubscribe(list_name, member, config) do
     provider = Keyword.fetch!(config, :provider)
 
-    list_address = list_name <> "@" <> Keyword.fetch!(config, :domain)
-
-    provider.unsubscribe(list_address, member, config)
+    provider.unsubscribe(
+      list_name |> validate_email(config),
+      member |> validate_email(),
+      config
+    )
   end
 
   @doc """
@@ -111,7 +142,7 @@ defmodule Papelillo.MailerList do
   """
   def parse_config(otp_app, mailerlist, mailerlist_config, dynamic_config) do
     otp_app_env =
-      if Application.get_env(otp_app, :env) == "test" do
+      if Application.get_env(otp_app, :mix_env) == :test do
         [http_client: Papelillo.Mocks.HttpMock]
         |> Keyword.merge(Application.get_env(otp_app, mailerlist, []))
       else
@@ -174,5 +205,28 @@ defmodule Papelillo.MailerList do
     The following dependencies are required to use #{inspect(adapter)}:
     #{deps}
     """
+  end
+
+  def validate_email(email) do
+    if EmailChecker.Check.Format.valid?(email) do
+      email
+    else
+      raise "#{email} has not valid email format"
+    end
+  end
+
+  def validate_email(email, config) do
+    if EmailChecker.Check.Format.valid?(email) do
+      email
+    else
+      email =
+        Keyword.fetch(config, :domain)
+        |> case do
+          {:ok, domain} -> "#{email}@#{domain}"
+          :error -> email
+        end
+
+      validate_email(email)
+    end
   end
 end
