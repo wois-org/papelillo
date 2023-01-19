@@ -222,7 +222,7 @@ defmodule Papelillo.MailerList do
       email =
         Keyword.fetch(config, :domain)
         |> case do
-          {:ok, domain} -> email <> "@" <> domain
+          {:ok, domain} -> "#{email}@#{domain}"
           :error -> email
         end
 
