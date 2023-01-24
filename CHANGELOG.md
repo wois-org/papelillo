@@ -1,6 +1,8 @@
 # Changelog
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+### Refactored
+* Change the error handler to allow for the final user to handle
 
 ## [0.2.1] - 2023-01-18
 ### Refactored
