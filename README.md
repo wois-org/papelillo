@@ -1,5 +1,7 @@
 # Papelillo
 
+[![Docs](https://img.shields.io/badge/hex-docs-blue)](https://wois.hexdocs.pm/papelillo/)
+
 Papelillo is a library to wrap and manage mailing lists, so you can create/update/delete mailing list and subscribe/unsubscribe members to these lists.
 
 You only need to set your provider's credentials in the config file and start to manage your mailing list without configure http calls, ensure urls or dealing with tricky configurations. Use your time in the business logic of your app.
@@ -24,7 +26,7 @@ The package can be installed by adding `papelillo` to your list of dependencies 
 def deps do
   [
     ...other,
-    {:papelillo, "~> 0.1.0"},
+    {:papelillo, "~> 0.2.1"},
     ...other
   ]
 end
@@ -36,6 +38,12 @@ end
 * config.exs
 
 ```elixir
+config :your_app,
+    ...,
+    mix_env: System.get_env("MIX_ENV")
+
+...
+
 config :your_app, YourApp.MailingList,
   provider: Papelillo.Providers.Mailgun,
   api_key: System.get_env("MAILGUN_API_KEY"),
@@ -47,6 +55,12 @@ config :your_app, YourApp.MailingList,
 * test.exs
 
 ```elixir
+config :your_app,
+    ...,
+    mix_env: :test
+
+...
+
 config :your_app, YourApp.MailingList,
   http_client: HTTPoisonMock #If you want to simulate custom http responses
 

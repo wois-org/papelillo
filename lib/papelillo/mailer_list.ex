@@ -3,6 +3,8 @@ defmodule Papelillo.MailerList do
   Maillist wrapper
   """
 
+  require Logger
+
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       alias Papelillo.MailerList
@@ -211,7 +213,8 @@ defmodule Papelillo.MailerList do
     if EmailChecker.Check.Format.valid?(email) do
       email
     else
-      raise "#{email} has not valid email format"
+      Logger.error("#{email} has not valid email format")
+      nil
     end
   end
 
