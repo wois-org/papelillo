@@ -11,6 +11,11 @@ defmodule Papelillo.MailingListBehaviour do
   @type member :: String.t()
   @type config :: Keyword.t()
 
+  @doc """
+  Create a mailing list with the parameters.
+
+  Address must be a string without blank spaces and special characters, the domain of the email address is taken from the config.exs definition.
+  """
   @callback create(name, description, address, config) :: {:ok, any()} | {:error, any()}
 
   @callback delete(address, config) :: {:ok, any()} | {:error, any()}

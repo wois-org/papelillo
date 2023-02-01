@@ -21,7 +21,7 @@ defmodule Papelillo.Providers.Mailgun do
     |> parse()
   end
 
-  def do_post(%{body: body, path: path}, config) do
+  defp do_post(%{body: body, path: path}, config) do
     http_client =
       Keyword.fetch(config, :http_client)
       |> case do
@@ -51,7 +51,7 @@ defmodule Papelillo.Providers.Mailgun do
     |> parse()
   end
 
-  def do_delete(%{address: address, path: path}, config) do
+  defp do_delete(%{address: address, path: path}, config) do
     http_client =
       Keyword.fetch(config, :http_client)
       |> case do
@@ -96,7 +96,7 @@ defmodule Papelillo.Providers.Mailgun do
     |> parse()
   end
 
-  def do_put(%{address: address, body: body, path: path}, config) do
+  defp do_put(%{address: address, body: body, path: path}, config) do
     http_client =
       Keyword.fetch(config, :http_client)
       |> case do
@@ -153,19 +153,19 @@ defmodule Papelillo.Providers.Mailgun do
     |> parse()
   end
 
-  def parse({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
+  defp parse({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
     {:ok, body}
   end
 
-  def parse({:ok, %HTTPoison.Response{status_code: 400, body: body}}) do
+  defp parse({:ok, %HTTPoison.Response{status_code: 400, body: body}}) do
     {:error, %{error: :error, message: body}}
   end
 
-  def parse({:ok, %HTTPoison.Response{status_code: 404, body: body}}) do
+  defp parse({:ok, %HTTPoison.Response{status_code: 404, body: body}}) do
     {:error, %{error: :error, status_code: 404, message: body}}
   end
 
-  def parse({:error, %HTTPoison.Error{reason: reason}}) do
+  defp parse({:error, %HTTPoison.Error{reason: reason}}) do
     {:error, reason}
   end
 end
