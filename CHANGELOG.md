@@ -2,6 +2,8 @@
 <!-- next-header -->
 
 ## [Unreleased] - ReleaseDate
+### Fixed
+* package is now public in hex.pm
 
 ## [0.2.2] - 2023-3-31
 ## [0.2.1] - 2023-3-31
