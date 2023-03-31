@@ -1,6 +1,8 @@
 # Changelog
 <!-- next-header -->
+
 ## [Unreleased] - ReleaseDate
+## [0.2.1] - 2023-3-31
 ### Refactored
 * Change the error handler to allow for the final user to handle
 
@@ -24,6 +26,7 @@
 
 <!-- next-url -->
 [Unreleased]: https://github.com/wois-org/papelillo/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/wois-org/papelillo/compare/v0.2.1...v0.2.1
 [0.2.0]: https://github.com/wois-org/papelillo/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/wois-org/papelillo/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/wois-org/notif-api/compare/v0.1.0...v0.1.1
