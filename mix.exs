@@ -4,7 +4,7 @@ defmodule Papelillo.MixProject do
   def project do
     [
       app: :papelillo,
-      version: "0.2.1-rc.1",
+      version: "0.2.3-alpha.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -34,7 +34,6 @@ defmodule Papelillo.MixProject do
   defp package() do
     [
       name: "papelillo",
-      organization: "wois",
       files: ~w(lib .formatter.exs mix.exs README* LICENSE CHANGELOG*),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/wois-org/papelillo"}
